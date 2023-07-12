@@ -1,11 +1,12 @@
+import os
+
 import caffe
+import numpy as np
 import onnx
 import onnxruntime
-import numpy as np
-import pdb
-import os
+
 dump_path = os.getcwd()
-dump_path = os.path.join(dump_path,'output/dump')
+dump_path = os.path.join(dump_path, 'output/dump')
 
 if not os.path.exists(dump_path):
     os.makedirs(dump_path)
@@ -39,7 +40,7 @@ def load_caffe_model(prototxt_path, caffemodel_path):
 def gen_input(models, in_node):
     np.random.seed(5)
     # get & check input shape
-    in_shapes = [get_input_shape_onnx(models[0], in_node), 
+    in_shapes = [get_input_shape_onnx(models[0], in_node),
                  get_input_shape_caffe(models[1], in_node)]
     in_shape = in_shapes[0]
     for shape in in_shapes:
@@ -70,7 +71,7 @@ def run_models(models, in_node, out_node, input_tensor):
 
 
 def net_forward_onnx(onnx_model, in_node, out_node, input_tensor):
-    result = onnx_model.run(out_node, {in_node : input_tensor})
+    result = onnx_model.run(out_node, {in_node: input_tensor})
     return result
 
 
@@ -97,7 +98,7 @@ def check_results(net_results, onnx_info, caffe_info):
         right_norm = np.sqrt(np.square(caffe_results[i]).sum())
         cos_sim = dot_result / (left_norm * right_norm)
         print("cos sim between onnx and caffe models: {}".format(cos_sim))
-        
+
         if cos_sim < 0.9999:
             # dump result
             np.savetxt(os.path.join(dump_path, "final_out_onnx.txt"), result.flatten(), fmt='%.18f')
@@ -133,10 +134,9 @@ def compareOnnxAndCaffe(onnx_path, prototxt_path, caffemodel_path):
     net_results = run_models(models, in_node[0], out_node, input_tensor)
     for i, node in enumerate(out_node):
         print("output tensor shape of {}: {} for onnx vs {} for caffe"
-               .format(node, net_results[0][i].shape, net_results[1][i].shape))
+              .format(node, net_results[0][i].shape, net_results[1][i].shape))
 
     # check model results
     onnx_info = [onnx_path, in_node[0], dump_input_file, input_tensor.shape]
     caffe_info = [prototxt_path, caffemodel_path, in_node[0], dump_input_file, input_tensor.shape]
     check_results(net_results, onnx_info, caffe_info)
-
