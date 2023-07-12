@@ -4,9 +4,9 @@ from __future__ import print_function
 import os
 import sys
 
-caffe_root='/opt/caffe/python'
+caffe_root = '/opt/caffe/python'
 os.chdir(caffe_root)
-sys.path.insert(0,caffe_root)
+sys.path.insert(0, caffe_root)
 
 import caffe
 import onnx
