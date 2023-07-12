@@ -1,0 +1,2 @@
+# onnx to caffe
+python convertCaffe.py ./model/MobileNetV2.onnx ./model/MobileNetV2.prototxt ./model/MobileNetV2.caffemodel

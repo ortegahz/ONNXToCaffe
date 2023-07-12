@@ -2,7 +2,7 @@
 from __future__ import print_function
 import sys
 
-import os,sys
+import os, sys
 # caffe_root='/opt/caffe/python'
 # os.chdir(caffe_root)
 # sys.path.insert(0,caffe_root)
@@ -11,6 +11,7 @@ import caffe
 import onnx
 import numpy as np
 from caffe.proto import caffe_pb2
+
 caffe.set_mode_cpu()
 from onnx2caffe._transformers import *
 from onnx2caffe._graph import Graph
@@ -31,19 +32,18 @@ transformers = [
     UnsqueezeFuser(),
 ]
 
-def convertToCaffe(graph,opset_version, prototxt_save_path, caffe_model_save_path):
 
+def convertToCaffe(graph, opset_version, prototxt_save_path, caffe_model_save_path):
     exist_edges = []
     layers = []
     exist_nodes = []
     err = ErrorHandling()
     for i in graph.inputs:
         edge_name = i[0]
-        input_layer = cvt.make_input(i,opset_version)
+        input_layer = cvt.make_input(i, opset_version)
         layers.append(input_layer)
         exist_edges.append(i[0])
         graph.channel_dims[edge_name] = graph.shape_dict[edge_name][1]
-
 
     for id, node in enumerate(graph.nodes):
         print(node.name, node.op_type)
@@ -64,8 +64,8 @@ def convertToCaffe(graph,opset_version, prototxt_save_path, caffe_model_save_pat
             err.unsupported_op(node)
             continue
         converter_fn = cvt._ONNX_NODE_REGISTRY[op_type]
-        layer = converter_fn(node,graph,err)
-        if type(layer)==tuple:
+        layer = converter_fn(node, graph, err)
+        if type(layer) == tuple:
             for l in layer:
                 layers.append(l)
         else:
@@ -75,12 +75,12 @@ def convertToCaffe(graph,opset_version, prototxt_save_path, caffe_model_save_pat
             exist_edges.append(out)
 
     net = caffe_pb2.NetParameter()
-    for id,layer in enumerate(layers):
+    for id, layer in enumerate(layers):
         layers[id] = layer._to_proto()
     net.layer.extend(layers)
 
     with open(prototxt_save_path, 'w') as f:
-        print(net,file=f)
+        print(net, file=f)
 
     caffe.set_mode_cpu()
     deploy = prototxt_save_path
@@ -102,6 +102,7 @@ def convertToCaffe(graph,opset_version, prototxt_save_path, caffe_model_save_pat
     net.save(caffe_model_save_path)
     return net
 
+
 def getGraph(onnx_path):
     model = onnx.load(onnx_path)
     opset_version = model.opset_import[0].version  # 获取 opset version ,不同的 opset version 下 onnx的 op解析方式不同
@@ -113,6 +114,7 @@ def getGraph(onnx_path):
 
     return graph, opset_version
 
+
 if __name__ == "__main__":
     onnx_path = sys.argv[1]
     prototxt_path = sys.argv[2]
@@ -120,5 +122,4 @@ if __name__ == "__main__":
     graph = getGraph(onnx_path)
     graph, opset_version = getGraph(onnx_path)
     convertToCaffe(graph, opset_version, prototxt_path, caffemodel_path)
-    compareOnnxAndCaffe(onnx_path,prototxt_path,caffemodel_path)
-
+    compareOnnxAndCaffe(onnx_path, prototxt_path, caffemodel_path)
