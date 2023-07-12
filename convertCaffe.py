@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+
+import os
 import sys
 
-import os, sys
-# caffe_root='/opt/caffe/python'
-# os.chdir(caffe_root)
-# sys.path.insert(0,caffe_root)
+caffe_root='/opt/caffe/python'
+os.chdir(caffe_root)
+sys.path.insert(0,caffe_root)
 
 import caffe
 import onnx
-import numpy as np
 from caffe.proto import caffe_pb2
 
 caffe.set_mode_cpu()
@@ -19,7 +19,6 @@ from onnx2caffe._graph import Graph
 import onnx2caffe._operators as cvt
 import onnx2caffe._weightloader as wlr
 from onnx2caffe._error_utils import ErrorHandling
-from collections import OrderedDict
 from onnx import shape_inference
 
 from modelComparator import compareOnnxAndCaffe
