@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 
-import os
 import sys
 
 caffe_root = '/media/manu/kingstop/workspace/caffe/python'
@@ -103,7 +102,7 @@ def convertToCaffe(graph, opset_version, prototxt_save_path, caffe_model_save_pa
 
 def getGraph(onnx_path):
     model = onnx.load(onnx_path)
-    opset_version = model.opset_import[0].version  # 获取 opset version ,不同的 opset version 下 onnx的 op解析方式不同
+    opset_version = model.opset_import[0].version
     model = shape_inference.infer_shapes(model)
     model_graph = model.graph
     graph = Graph.from_onnx(model_graph)
@@ -113,11 +112,15 @@ def getGraph(onnx_path):
     return graph, opset_version
 
 
-if __name__ == "__main__":
+def main():
     onnx_path = sys.argv[1]
     prototxt_path = sys.argv[2]
     caffemodel_path = sys.argv[3]
-    graph = getGraph(onnx_path)
+    # graph = getGraph(onnx_path)
     graph, opset_version = getGraph(onnx_path)
     convertToCaffe(graph, opset_version, prototxt_path, caffemodel_path)
     compareOnnxAndCaffe(onnx_path, prototxt_path, caffemodel_path)
+
+
+if __name__ == "__main__":
+    main()
