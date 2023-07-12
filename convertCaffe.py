@@ -4,8 +4,7 @@ from __future__ import print_function
 import os
 import sys
 
-caffe_root = '/opt/caffe/python'
-os.chdir(caffe_root)
+caffe_root = '/media/manu/kingstop/workspace/caffe/python'
 sys.path.insert(0, caffe_root)
 
 import caffe

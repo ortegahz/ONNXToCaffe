@@ -3,3 +3,9 @@
 *.caffemodel
 
 *.pyc
+
+output/dump/
+
+model/MobileNetV2\.pth
+
+model/MobileNetV2\.onnx
