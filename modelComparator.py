@@ -140,3 +140,38 @@ def compareOnnxAndCaffe(onnx_path, prototxt_path, caffemodel_path):
     onnx_info = [onnx_path, in_node[0], dump_input_file, input_tensor.shape]
     caffe_info = [prototxt_path, caffemodel_path, in_node[0], dump_input_file, input_tensor.shape]
     check_results(net_results, onnx_info, caffe_info)
+
+
+def compareCaffeAndCaffe(prototxt_path_a, caffemodel_path_a, prototxt_path_b, caffemodel_path_b):
+    models = [load_caffe_model(prototxt_path_a, caffemodel_path_a),
+              load_caffe_model(prototxt_path_b, caffemodel_path_b)]
+
+    in_node = 'images'
+    out_node = ['outputs', '243', '251', '238', '246', '254']
+
+    # generate input tensor
+    # in NCHW format
+    input_tensor = np.random.rand(1, 3, 640, 640).astype(np.float32)
+
+    net_results_a = net_forward_caffe(models[0], in_node, out_node, input_tensor)
+    net_results_b = net_forward_caffe(models[1], in_node, out_node, input_tensor)
+
+    # check model results
+    for i, result in enumerate(net_results_a):
+        print("caffe_a", result)
+        print("caffe_b", net_results_b[i])
+
+        # check if result are same by cosine distance
+        dot_result = np.dot(result.flatten(), net_results_b[i].flatten())
+        left_norm = np.sqrt(np.square(result).sum())
+        right_norm = np.sqrt(np.square(net_results_b[i]).sum())
+        cos_sim = dot_result / (left_norm * right_norm)
+        print("cos sim between onnx and caffe models: {}".format(cos_sim))
+
+        if cos_sim < 0.9999:
+            # dump result
+            np.savetxt(os.path.join(dump_path, "final_out_caffe_a.txt"), result.flatten(), fmt='%.18f')
+            np.savetxt(os.path.join(dump_path, "final_out_caffe_b.txt"), net_results_b[i].flatten(), fmt='%.18f')
+            raise Exception("model output different")
+
+    print("models similarity test passed")

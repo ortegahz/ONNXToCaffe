@@ -15,28 +15,8 @@ python convertCaffe.py /home/manu/tmp/acfree.onnx /home/manu/tmp/acfree.prototxt
 
 # caffe infer for nnie <pip install protobuf==3.5.1>
 python CNN_convert_bin_and_print_featuremap.py -m /home/manu/tmp/acfree.prototxt -w /home/manu/tmp/acfree.caffemodel -i /media/manu/samsung/pics/sylgd_rp.bmp -p /home/manu/tmp/yolo9000_test.binaryproto
+
 python CNN_convert_bin_and_print_featuremap.py -m /media/manu/samsung/Hi3519AV100R001C02SPC002/SVP_PC/HiSVP_PC_V1.2.0.1_B040/software/sample/data/classification/alexnet/model/bvlc_alexnet_no_group_deploy.prototxt -w /media/manu/samsung/Hi3519AV100R001C02SPC002/SVP_PC/HiSVP_PC_V1.2.0.1_B040/software/sample/data/classification/alexnet/model/bvlc_alexnet_no_group.caffemodel -i /media/manu/samsung/pics/sylgd_rp.bmp -p /media/manu/samsung/Hi3519AV100R001C02SPC002/SVP_PC/HiSVP_PC_V1.2.0.1_B040/software/sample/data/classification/alexnet/model/imagenet_mean.binaryproto -o /home/manu/tmp/caffe_outs_debug -s 0.0039062 -n 1
 
 # TODO
 must copy CNN_convert_bin_and_print_featuremap.py to C:\Program Files\RuyiStudio-2.0.24\Resources\pythonScript and run with ruyistudio
-
-# tmp
-J:\Hi3519AV100R001C02SPC002\SVP_PC\HiSVP_PC_V1.2.0.1_B040\software\sample\caffe_out
-J:\Hi3519AV100R001C02SPC002\SVP_PC\HiSVP_PC_V1.2.0.1_B040\software\sample\mapper_quant
-J:\Hi3519AV100R001C02SPC002\SVP_PC\HiSVP_PC_V1.2.0.1_B040\software\sample\data\classification\alexnet\caffe_ruyi
-I:\tmp\caffe_outs_debug
-
-print('CNN_convert_bin_and_print_featuremap.py -m <model_file> -w <weight_file> -i <img_file or bin_file or float_file> -p <"104","117","123" or "ilsvrc_2012_mean.npy">')
-print('-m <model_file>:  .prototxt, batch num should be 1')
-print('-w <weight_file>: .caffemodel')
-print('-i <img_file>:    .JPEG or jpg or png or PNG or bmp or BMP')
-print('-i <bin_file>:    test_img_$c_$h_$w.bin')
-print('-i <float_file>:  %s_output%d_%d_%d_%d_caffe.linear.float')
-print('-n <norm_type>:   0(default): no process, 1: sub img-val and please give the img path in the parameter p, 2: sub channel mean value and please give each channel value in the parameter p in BGR order, 3: dividing 256, 4: sub mean image file and dividing 256, 5: sub channel mean value and dividing 256')
-print('-s <data_scale>:  optional, if not set, 0.003906 is set by default')
-print('-p <"104", "117", "123" or "ilsvrc_2012_mean.npy" or "xxx.binaryproto">: -p "104", "117", "123" is sub channel-mean-val, -p "ilsvrc_2012_mean.npy" is sub img-val and need a ilsvrc_2012_mean.npy')
-print('-o <output_dir:   optional, if not set, there will be a directory named output created in current dir>')
-print('any parameter only need one input')
-
-H:\workspace\YOLOv6\deploy\NNIE\mapper_quant
-H:\workspace\YOLOv6\deploy\NNIE\ruyi_float
