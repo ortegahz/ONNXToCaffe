@@ -292,7 +292,8 @@ def main(argv):
        elif net.blobs['images'].data.shape[1]==3:
           color = True
        img = cv2.imdecode(np.fromfile(img_filename, dtype=np.uint8), -1)
-       #img = cv2.imread(img_filename, color) # load the image using caffe io
+       # img = cv2.imread(img_filename, color) # load the image using caffe io
+       img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
        inputs = img
     elif img_filename.endswith('.bin'):
        fbin = open(img_filename.encode('gbk'))
@@ -348,6 +349,13 @@ def main(argv):
           data = data * float(data_scale)
     
     data_reshape= np.reshape(data,net.blobs[list(net.blobs.keys())[0]].data.shape)
+	
+    print('manu !!!!!!')
+    filename = os.path.join(output_dir, "ruyi_outputs_debug.txt")
+    fid = open(filename, 'wb')
+    np.savetxt(fid, data_reshape.flatten())
+    # sys.exit(0)
+	
     net.blobs[list(net.blobs.keys())[0]].data[...] = data_reshape.astype('float')
     out = net.forward()
     
