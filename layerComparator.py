@@ -73,6 +73,7 @@ def compareLayers(onnx_info, caffe_info):
             right_norm = np.sqrt(np.square(caffe_res).sum())
             cos_sim = dot_result / (left_norm * right_norm)
 
+            # cos_sim = 0.0
             if cos_sim < 0.9999:
                 onnx_file = os.path.join(dump_path, layer+'_onnx.txt')
                 np.savetxt(onnx_file, onnx_res.flatten(), fmt='%.18f')

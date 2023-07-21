@@ -1,6 +1,7 @@
 import os
 
 import caffe
+import cv2
 import numpy as np
 import onnx
 import onnxruntime
@@ -47,7 +48,14 @@ def gen_input(models, in_node):
         if shape != in_shape:
             raise Exception("model input shape doesn't match: {} vs {}".format(shape, in_shape))
     # generate tensor of input shape with random value (NCHW)
-    return np.random.rand(1, *in_shape).astype(np.float32)
+    # input_tensor = np.random.rand(1, *in_shape).astype(np.float32)
+    img = cv2.imread('/media/manu/samsung/pics/students_lt.bmp')
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = img.transpose((2, 0, 1))
+    batch = np.expand_dims(img, 0)
+    input_tensor = np.ascontiguousarray(batch)
+    input_tensor = input_tensor.astype(np.float32) / 255.
+    return input_tensor
 
 
 def get_input_shape_onnx(onnx_model, in_node):
@@ -99,6 +107,7 @@ def check_results(net_results, onnx_info, caffe_info):
         cos_sim = dot_result / (left_norm * right_norm)
         print("cos sim between onnx and caffe models: {}".format(cos_sim))
 
+        # cos_sim = 0.0
         if cos_sim < 0.9999:
             # dump result
             np.savetxt(os.path.join(dump_path, "final_out_onnx.txt"), result.flatten(), fmt='%.18f')
