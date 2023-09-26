@@ -156,7 +156,9 @@ def compareCaffeAndCaffe(prototxt_path_a, caffemodel_path_a, prototxt_path_b, ca
               load_caffe_model(prototxt_path_b, caffemodel_path_b)]
 
     in_node = 'images'
-    out_node = ['outputs', '243', '251', '238', '246', '254']
+    # out_node = ['outputs', '243', '251', '238', '246', '254']
+    # out_node = ['outputs', '257', '256']
+    out_node = ['outputs', '269', '268']
 
     # generate input tensor
     # in NCHW format
@@ -175,7 +177,7 @@ def compareCaffeAndCaffe(prototxt_path_a, caffemodel_path_a, prototxt_path_b, ca
         left_norm = np.sqrt(np.square(result).sum())
         right_norm = np.sqrt(np.square(net_results_b[i]).sum())
         cos_sim = dot_result / (left_norm * right_norm)
-        print("cos sim between onnx and caffe models: {}".format(cos_sim))
+        print("cos sim between caffe and caffe models: {}".format(cos_sim))
 
         if cos_sim < 0.9999:
             # dump result

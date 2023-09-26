@@ -19,10 +19,10 @@ def set_logging():
 
 def parse_ars():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--path_in_ptt_a', default='/home/manu/tmp/acfree.prototxt', type=str)
-    parser.add_argument('--path_in_ptt_b', default='/home/manu/tmp/acfree_eft.prototxt', type=str)
-    parser.add_argument('--path_in_cfm_a', default='/home/manu/tmp/acfree.caffemodel', type=str)
-    parser.add_argument('--path_in_cfm_b', default='/home/manu/tmp/acfree.caffemodel', type=str)
+    parser.add_argument('--path_in_ptt_a', default='/home/manu/tmp/face.prototxt', type=str)
+    parser.add_argument('--path_in_ptt_b', default='/home/manu/tmp/face_eft.prototxt', type=str)
+    parser.add_argument('--path_in_cfm_a', default='/home/manu/tmp/face.caffemodel', type=str)
+    parser.add_argument('--path_in_cfm_b', default='/home/manu/tmp/face.caffemodel', type=str)
     return parser.parse_args()
 
 
