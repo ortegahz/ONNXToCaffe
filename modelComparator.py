@@ -157,8 +157,8 @@ def compareCaffeAndCaffe(prototxt_path_a, caffemodel_path_a, prototxt_path_b, ca
 
     in_node = 'images'
     # out_node = ['outputs', '243', '251', '238', '246', '254']
-    # out_node = ['outputs', '257', '256']
-    out_node = ['outputs', '269', '268']
+    out_node = ['outputs', '256', '257']
+    # out_node = ['outputs', '269', '268']
 
     # generate input tensor
     # in NCHW format

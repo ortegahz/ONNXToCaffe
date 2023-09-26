@@ -13,6 +13,7 @@ export PKG_CONFIG_PATH=/home/manu/softwares/opencv-3.4.0/lib/pkgconfig
 python convertCaffe.py ./model/MobileNetV2.onnx ./model/MobileNetV2.prototxt ./model/MobileNetV2.caffemodel
 python convertCaffe.py /home/manu/tmp/acfree.onnx /home/manu/tmp/acfree.prototxt /home/manu/tmp/acfree.caffemodel
 python convertCaffe.py /home/manu/tmp/face.onnx /home/manu/tmp/face.prototxt /home/manu/tmp/face.caffemodel
+python convertCaffe.py /home/manu/tmp/bhv.onnx /home/manu/tmp/bhv.prototxt /home/manu/tmp/bhv.caffemodel
 
 # caffe infer for nnie <pip install protobuf==3.5.1>
 python CNN_convert_bin_and_print_featuremap.py -m /home/manu/tmp/acfree.prototxt -w /home/manu/tmp/acfree.caffemodel -i /media/manu/samsung/pics/sylgd_rp.bmp -p /home/manu/tmp/yolo9000_test.binaryproto
